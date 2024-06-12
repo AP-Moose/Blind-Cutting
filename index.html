@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blind Cutting Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            background-color: #fa6304;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            margin: 0;
+            padding: 20px;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+        }
+
+        section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        @media screen and (max-width: 600px) {
+            body {
+                font-size: 14px;
+            }
+
+            input[type="number"] {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Blind Cutting Calculator</h1>
+    <main>
+        <section>
+            <table>
+                <tr>
+                    <td><label for="measurementType">Customer's Measurement:</label></td>
+                    <td>
+                        <select id="measurementType" onchange="updateOutput()">
+                            <option value="outside">Outside</option>
+                            <option value="inside">Inside</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="windowWidth">Customer Window Width (inches):</label></td>
+                    <td><input type="number" id="windowWidth" placeholder="Enter window width..." oninput="updateOutput()"></td>
+                </tr>
+                <tr>
+                    <td><label for="startingWidth">Starting Blind/Shade Width (inches):</label></td>
+                    <td><input type="number" id="startingWidth" placeholder="Enter starting width..." oninput="updateOutput()"></td>
+                </tr>
+                <tr>
+                    <td><strong>Amount to Cut Off Each Side:</strong></td>
+                    <td><span id="cutAmountOutput"></span></td>
+                </tr>
+            </table>
+        </section>
+    </main>
+    <script>
+        function updateOutput() {
+            const measurementType = document.getElementById("measurementType").value;
+            const windowWidth = parseFloat(document.getElementById("windowWidth").value) || 0;
+            const startingWidth = parseFloat(document.getElementById("startingWidth").value) || 0;
+            const trueStartingWidth = startingWidth - 0.5;
+            
+            let targetWidth;
+            if (measurementType === "outside") {
+                targetWidth = windowWidth;
+            } else {
+                targetWidth = windowWidth - 0.5;
+            }
+            
+            const cutAmount = ((trueStartingWidth - targetWidth) / 2).toFixed(2);
+            const cutAmountOutput = cutAmount + " inches";
+
+            document.getElementById("cutAmountOutput").textContent = cutAmountOutput;
+        }
+    </script>
+</body>
+</html>
